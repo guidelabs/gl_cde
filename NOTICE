@@ -1,0 +1,6 @@
+Block-Causal Diffusion Engine (CDE)
+Copyright (c) 2026, Guide Labs
+
+Licensed under the Apache License, Version 2.0. See LICENSE for the full terms.
+
+Part of the code are adapted from nano-vLLM, see license/nanovllm.txt, and paged attention from pytorch, see license/flexpageattention.txt.

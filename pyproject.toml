@@ -1,0 +1,210 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["gl_cde"]
+
+[project]
+name = "gl_cde"
+description = "Guide Labs"
+version = "0.1.0"
+requires-python = ">=3.13,<3.15"
+classifiers = ["Private :: Do Not Upload"]
+dependencies = [
+    "numpy >= 2.5.4, <3.0.0",
+    "huggingface_hub ~= 2.3.0",
+    "transformers ~= 5.20.2",
+    "tiktoken ~= 0.14.0",
+    "safetensors ~= 0.8.0",
+]
+
+[project.optional-dependencies]
+cpu = [
+    "torch ~= 2.14.1"
+]
+cuda = [
+    "torch ~= 2.14.1"
+]
+
+[dependency-groups]
+ci = [
+    "basedpyright ~= 1.40.2"
+]
+
+benchmark = [
+    "lm-eval[math] ~= 0.4.13",
+]
+
+[tool.uv]
+conflicts = [
+  [
+    { extra = "cpu" },
+    { extra = "cuda" },
+  ],
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu130", extra = "cuda" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.pyright]
+pythonVersion = "3.14"
+venvPath = "."
+venv = ".venv"
+exclude = ["**/node_modules", "**/__pycache__", "**/.*"]
+reportPrivateImportUsage = "none"
+reportUnknownMemberType = "none"
+reportUnknownVariableType = "none"
+reportUnknownArgumentType = "none"
+reportUnknownParameterType = "none"
+reportMissingTypeStubs = "none"
+reportUnusedCallResult = "none"
+reportImplicitOverride = "none"
+reportUnreachable = "none"
+reportImplicitStringConcatenation = "none"
+reportPrivateUsage = "none"
+reportUnnecessaryIsInstance = "none"
+reportAny = "none"
+reportExplicitAny = "none"
+reportUnnecessaryComparison = "none"
+reportUnusedParameter = "none"
+reportUnknownLambdaType = "none"
+reportUnannotatedClassAttribute = "none"
+reportPrivateLocalImportUsage = "error"
+reportUntypedBaseClass = "error"
+reportDeprecated = "error"
+reportEmptyAbstractUsage = "error"
+reportIgnoreCommentWithoutRule = "error"
+reportUnnecessaryTypeIgnoreComment = "error"
+reportMissingParameterType = "error"
+reportUnusedImport = "error"
+reportUnusedClass = "error"
+reportUnusedFunction = "error"
+reportUnusedVariable = "error"
+reportDuplicateImport = "error"
+reportWildcardImportFromLibrary = "error"
+reportRedeclaration = "error"
+reportUnnecessaryCast = "error"
+reportUnusedCoroutine = "error"
+reportUnusedExpression = "error"
+reportInvalidAbstractMethod = "error"
+reportSelfClsDefault = "error"
+failOnWarnings = false
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+preview = true
+explicit-preview-rules = true
+select = [
+    # isort
+    "I",
+    # pycodestyle (errors)
+    "E",
+    # pycodestyle (warnings)
+    "W",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # commented-out-code
+    "ERA",
+    # flake8-bugbear
+    "B",
+    # pydocstyle
+    "D",
+    # pydoclint
+    "DOC",
+    # flake8-annotations
+    "ANN",
+    # flake8-async
+    "ASYNC",
+    # flake8-boolean-trap
+    "FBT",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions (C4)
+    "C",
+    # flake8-errmsg (EM)
+    "EM",
+    # flake8-quotes (Q)
+    "Q",
+    # tryceratops (TRY)
+    "TRY",
+    # flake8-pytest-style (PT)
+    "PT",
+    # flake8-simplify (SIM)
+    "SIM",
+    # flake8-return (RET)
+    "RET",
+    # NumPy-specific rules (NPY)
+    "NPY",
+    # flake8-pie (PIE)
+    "PIE",
+    # refurb (FURB)
+    "FURB",
+    # flake8-slots (SLOT)
+    "SLOT",
+    # Error (PLE)
+    "PLE",
+    # Ruff
+    "RUF"
+]
+ignore = ['F722',
+          'EM101', 'EM102',
+          'PT012',
+          'A005',
+          'C9',
+          'SIM117',
+          'D100', 'D101', 'D102', 'D103', 'D104', 'D105', 'D107',
+          'RUF022',
+          'DOC501',
+          'TRY003',
+          'TRY301']
+extend-select = [
+    # preview pycodestyle (E/W) rules
+    "E111", "E112", "E113", "E114", "E115", "E116", "E117",
+    "E201", "E202", "E203", "E204", "E211",
+    "E221", "E222", "E223", "E224", "E225", "E226", "E227", "E228", "E231",
+    "E241", "E242", "E251", "E252",
+    "E261", "E262", "E265", "E266",
+    "E271", "E272", "E273", "E274", "E275",
+    "E301", "E302", "E303", "E304", "E305", "E306",
+    "E502",
+    "W391",
+    "RUF036", "RUF052", "RUF054",
+    # pydoclint (DOC) preview rules
+    "DOC102", "DOC201", "DOC202", "DOC402", "DOC403", "DOC502",
+    # pylint refactor (PLR) rules
+    "PLR0124", "PLR0133", "PLR0202", "PLR0203", "PLR0206", "PLR0402",
+    "PLR1704", "PLR1708", "PLR1712", "PLR1714", "PLR1716", "PLR1722",
+    "PLR1730", "PLR1733", "PLR1736", "PLR2044", "PLR5501", "PLR6201",
+]
+allowed-confusables = ["×"]
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+[tool.ruff.lint.isort]
+known-first-party = ["gl_cde"]
+length-sort-straight = true
+from-first = true
+force-sort-within-sections = true
+
+[tool.deptry]
+known_first_party = ["gl_cde"]
